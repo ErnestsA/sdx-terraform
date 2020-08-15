@@ -31,3 +31,16 @@ resource "aws_instance" "server" {
     Name = "janis-rancans-aws-instance-in-public-subnet"
   }
 }
+
+resource "aws_instance" "server2" {
+  count           = var.number
+  ami             = data.aws_ami.linux_ami_hvm.id
+  instance_type   = var.flavor
+  key_name        = aws_key_pair.keypair.key_name
+  subnet_id       = "${aws_subnet.private_subnet.id}"
+  security_groups = [aws_security_group.server_fw.id]
+
+  tags = {
+    Name = "janis-rancans-aws-instance-in-private-subnet"
+  }
+}
