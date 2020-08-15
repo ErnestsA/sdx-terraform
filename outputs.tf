@@ -7,7 +7,7 @@ output "vpc_cidr" {
 }
 
 output "availability_zone" {
-  value = aws_subnet.private_network.availability_zone
+  value = aws_subnet.public_network.availability_zone
 }
 
 output "server_ami" {

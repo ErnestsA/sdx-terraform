@@ -3,7 +3,7 @@ variable "name_prefix" {
   default = "dev"
 }
 
-variable "private_network_cidr" {
+variable "public_network_cidr" {
   type = string
 }
 
@@ -24,5 +24,9 @@ variable "flavor" {
 }
 
 variable "vpc_cidr_block" {
+  type = string
+}
+
+variable "private_network_cidr" {
   type = string
 }
