@@ -33,3 +33,19 @@ resource "aws_instance" "server" {
     )
   )}"
 }
+
+resource "aws_instance" "server1" {
+  count           = var.number
+  ami             = data.aws_ami.linux_ami_hvm.id
+  instance_type   = var.flavor
+  key_name        = aws_key_pair.keypair.key_name
+  subnet_id       = aws_subnet.private-subnet.id
+  security_groups = [aws_security_group.server_fw.id]
+
+  tags = "${merge(
+    local.default_tags,
+    map(
+      "name", "${var.name_prefix}-server-${count.index}"
+    )
+  )}"
+}
