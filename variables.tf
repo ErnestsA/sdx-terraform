@@ -3,17 +3,17 @@ variable "name_prefix" {
   default = "dev"
 }
 
-variable "vpc_id" {
-  type = string
-}
+#variable "vpc_id" {
+#  type = string
+#}
 
-variable "rtb_id" {
-  type = string
-}
+#variable "rtb_id" {
+#  type = string
+#}
 
-variable "private_network_cidr" {
-  type = string
-}
+#variable "private_network_cidr" {
+#  type = string
+#}
 
 variable "image" {
   type = string
@@ -29,4 +29,24 @@ variable "number" {
 
 variable "flavor" {
   type = string
+}
+
+
+variable "vpc_cidr" {
+  type        = string
+  default     = "10.0.0.0/16"
+  description = "VPC CIDR block"
+}
+
+variable "public_cidr" {
+  type        = string
+  default     = "10.0.12.0/24"
+  description = "Public CIDR block"
+
+}
+
+variable "private_cidr" {
+  type        = string
+  default     = "10.0.24.0/24"
+  description = "Private CIDR block"
 }

@@ -18,58 +18,16 @@ resource "aws_key_pair" "keypair" {
   public_key = "${file("${var.ssh_key_file}.pub")}"
 }
 
-resource "aws_security_group" "server_fw" {
-  vpc_id = data.aws_vpc.private_cloud.id
-  name   = "${var.name_prefix}-server-fw"
-
-  ingress {
-    protocol    = "tcp"
-    from_port   = 8080
-    to_port     = 8080
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    protocol    = "icmp"
-    from_port   = -1
-    to_port     = -1
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    protocol    = "tcp"
-    from_port   = 22
-    to_port     = 22
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = "${merge(
-    local.default_tags,
-    map(
-      "name", "${var.name_prefix}-server_fw"
-    )
-  )}"
-}
 
 resource "aws_instance" "server" {
   count           = var.number
   ami             = data.aws_ami.linux_ami_hvm.id
   instance_type   = var.flavor
   key_name        = aws_key_pair.keypair.key_name
-  subnet_id       = aws_subnet.private_network.id
+  subnet_id       = "${aws_subnet.public_subnet.id}"
   security_groups = [aws_security_group.server_fw.id]
 
-  tags = "${merge(
-    local.default_tags,
-    map(
-      "name", "${var.name_prefix}-server-${count.index}"
-    )
-  )}"
+  tags = {
+    Name = "janis-rancans-aws-instance-in-public-subnet"
+  }
 }
