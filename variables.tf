@@ -11,6 +11,10 @@ variable "rtb_id" {
   type = string
 }
 
+variable "jk_cidr" {
+  type = string
+}
+
 variable "private_network_cidr" {
   type = string
 }
