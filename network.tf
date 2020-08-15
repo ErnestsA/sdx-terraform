@@ -57,3 +57,8 @@ resource "aws_route_table_association" "jk-rt-a" {
     subnet_id = aws_subnet.jksubnet.id
     route_table_id = aws_route_table.jkroute.id
 }
+
+resource "aws_route_table_association" "jk-prt-a" {
+    subnet_id = aws_subnet.jkprivate_network.id
+    route_table_id = aws_route_table.jkprivate.id
+}

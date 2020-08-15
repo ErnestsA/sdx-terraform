@@ -10,7 +10,7 @@ output "subnet_cidr" {
   value = aws_subnet.jksubnet.cidr_block
 }
 
-output "private_subnet_cidr" {
+output "subnet_cidr_private" {
   value = aws_subnet.jkprivate_network.cidr_block
 }
 
