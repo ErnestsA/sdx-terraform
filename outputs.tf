@@ -7,11 +7,15 @@ output "vpc_cidr" {
 }
 
 output "subnet_cidr" {
-  value = aws_subnet.private_network.cidr_block
+  value = aws_subnet.jksubnet.cidr_block
+}
+
+output "private_subnet_cidr" {
+  value = aws_subnet.jkprivate_network.cidr_block
 }
 
 output "availability_zone" {
-  value = aws_subnet.private_network.availability_zone
+  value = aws_subnet.jksubnet.availability_zone
 }
 
 output "server_ami" {

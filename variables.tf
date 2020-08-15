@@ -15,7 +15,11 @@ variable "jk_cidr" {
   type = string
 }
 
-variable "private_network_cidr" {
+variable "jk_subnet_cidr" {
+  type = string
+}
+
+variable "jk_private_cidr" {
   type = string
 }
 

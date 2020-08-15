@@ -18,9 +18,9 @@ resource "aws_key_pair" "keypair" {
     public_key = "${file("${var.ssh_key_file}.pub")}"
 }
 
-resource "aws_security_group" "server_fw" {
+resource "aws_security_group" "jk_secure" {
     vpc_id = aws_vpc.jkvpc.id
-    name = "${var.name_prefix}-server-fw"
+    name = "${var.name_prefix}-jk-secure"
 
     ingress {
         protocol = "tcp"
@@ -53,7 +53,7 @@ resource "aws_security_group" "server_fw" {
     tags = "${merge(
         local.default_tags,
         map(
-            "name", "${var.name_prefix}-server-fw"
+            "name", "${var.name_prefix}-jk-secure"
         )
     )}"
 }
@@ -63,8 +63,8 @@ resource "aws_instance" "server" {
     ami = data.aws_ami.linux_ami_hvm.id
     instance_type = var.flavor
     key_name = aws_key_pair.keypair.key_name
-    subnet_id = aws_subnet.private_network.id
-    security_groups = [aws_security_group.server_fw.id]
+    subnet_id = aws_subnet.jksubnet.id
+    security_groups = [aws_security_group.jk_secure.id]
 
     tags = "${merge(
         local.default_tags,
