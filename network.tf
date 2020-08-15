@@ -1,6 +1,3 @@
-# Availibility zones
-data "aws_availability_zones" "available" {}
-
 # VPC
 resource "aws_vpc" "main_vpc" {
   cidr_block           = "${var.vpc_cidr}"
@@ -115,10 +112,7 @@ resource "aws_security_group" "server_fw" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = "${merge(
-    local.default_tags,
-    map(
-      "name", "${var.name_prefix}-server_fw"
-    )
-  )}"
+  tags = {
+    Name = "janis-rancans-security-group"
+  }
 }
