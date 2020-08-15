@@ -13,6 +13,21 @@ data "aws_ami" "linux_ami_hvm" {
     }
 }
 
+data "aws_ami" "private_ami" {
+    most_recent = true
+    owners = ["amazon"]
+
+    filter {
+        name = "name"
+        values = [var.private_image]
+    }
+    
+    filter {
+        name = "virtualization-type"
+        values = ["hvm"]
+    }
+}
+
 resource "aws_key_pair" "keypair" {
     key_name = "${var.name_prefix}-key"
     public_key = "${file("${var.ssh_key_file}.pub")}"
@@ -69,7 +84,23 @@ resource "aws_instance" "server" {
     tags = "${merge(
         local.default_tags,
         map(
-            "name", "${var.name_prefix}-server-${count.index}"
+            "Name", "${var.name_prefix}-server-${count.index}"
+        )
+    )}"
+}
+
+resource "aws_instance" "privte_server" {
+    count = var.private_number
+    ami = data.aws_ami.private_ami.id
+    instance_type = var.flavor
+    key_name = aws_key_pair.keypair.key_name
+    subnet_id = aws_subnet.jkprivate_network.id
+    security_groups = [aws_security_group.jk_secure.id]
+
+    tags = "${merge(
+        local.default_tags,
+        map(
+            "Name", "${var.name_prefix}-private_server-${count.index}"
         )
     )}"
 }

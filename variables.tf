@@ -27,11 +27,19 @@ variable "image" {
   type = string
 }
 
+variable "private_image" {
+  type = string
+}
+
 variable "ssh_key_file" {
   type = string
 }
 
 variable "number" {
+  type = string
+}
+
+variable "private_number" {
   type = string
 }
 

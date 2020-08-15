@@ -22,6 +22,10 @@ output "server_ami" {
   value = data.aws_ami.linux_ami_hvm.id
 }
 
+output "server_ami_private" {
+  value = data.aws_ami.private_ami.id
+}
+
 output "server_ips" {
   value = aws_instance.server.*.public_ip
 }
