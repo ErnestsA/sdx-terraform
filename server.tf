@@ -20,7 +20,7 @@ resource "aws_key_pair" "keypair" {
 }
 
 resource "aws_security_group" "server_fw" {
-  vpc_id = data.aws_vpc.private_cloud.id
+  vpc_id = aws_vpc.private_cloud.id
   name = "${var.name_prefix}-server-fw"
 
 ingress {

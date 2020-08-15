@@ -3,7 +3,7 @@ output "default_tags" {
 }
 
 output "vpc_cidr" {
-  value = data.aws_vpc.private_cloud.cidr_block
+  value = aws_vpc.private_cloud.cidr_block
 }
 
 output "availability_zone" {
