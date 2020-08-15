@@ -41,5 +41,37 @@ resource "aws_route_table_association" "private_network_rt_a" {
 		route_table_id = aws_route_table.r.id
 }
 
+resource "aws_route_table" "in" {
+  vpc_id = aws_vpc.private_cloud.id
+
+}
+
+resource "aws_route_table_association" "internal_network_rt_a" {
+                subnet_id = aws_subnet.internal_network.id
+                route_table_id = aws_route_table.in.id
+}
+
+resource "aws_subnet" "internal_network" {
+  vpc_id = aws_vpc.private_cloud.id
+  cidr_block = var.internal_network_cidr
+
+  map_public_ip_on_launch = false
+
+  tags = "${merge(
+        local.default_tags,
+        map(
+          "name", "${var.name_prefix}-private_network"
+        )
+  )}"
+}
+
+
+
+
+
+
+
+
+
 
 

@@ -26,6 +26,10 @@ variable "vpc_cidr" {
   type = string
 }
 
+variable "internal_network_cidr" {
+  type = string
+}
+
 
 
 

@@ -11,6 +11,8 @@ ssh_key_file = "~/.ssh/id_rsa"
 number = "4"
 flavor = "t2.micro"
 
+internal_network_cidr = "10.0.9.0/24"
+
 
 
 
