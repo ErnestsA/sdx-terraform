@@ -11,6 +11,13 @@ resource "aws_vpc" "jkvpc" {
 
 resource "aws_internet_gateway" "jkgate" {
     vpc_id = aws_vpc.jkvpc.id
+    
+    tags = "${merge(
+        local.default_tags,
+        map(
+            "name", "${var.name_prefix}-gateway"
+        )
+    )}"
 }
 
 resource "aws_subnet" "private_network" {
@@ -29,11 +36,17 @@ resource "aws_subnet" "private_network" {
 
 resource "aws_route_table" "jkroute" {
     vpc_id = aws_vpc.jkvpc.id
-
+    tags = "${merge(
+        local.default_tags,
+        map(
+            "name", "${var.name_prefix}-route-table"
+        )
+    )}"
     route {
         cidr_block = "0.0.0.0/0"
         gateway_id = aws_internet_gateway.jkgate.id
     }
+
 }
 
 resource "aws_route_table_association" "jk-rt-a" {
