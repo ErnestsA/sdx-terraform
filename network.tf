@@ -2,9 +2,12 @@
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.vpc.id
 
-  tags = {
-    Name = "janis-rancans-internet-gataway"
-  }
+  tags = "${merge(
+    local.default_tags,
+    map(
+      "name", "${var.name_prefix}-internet-gateway"
+    )
+  )}"
 }
 
 # Subnets
@@ -15,9 +18,12 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = "eu-central-1a"
   map_public_ip_on_launch = true
 
-  tags = {
-    Name = "janis-rancans-public-subnet"
-  }
+  tags = "${merge(
+    local.default_tags,
+    map(
+      "name", "${var.name_prefix}-public-subnet"
+    )
+  )}"
 }
 
 # Private Subnet
@@ -26,9 +32,12 @@ resource "aws_subnet" "private_subnet" {
   vpc_id            = aws_vpc.vpc.id
   availability_zone = "eu-central-1b"
 
-  tags = {
-    Name = "janis-rancans-private-subnet"
-  }
+  tags = "${merge(
+    local.default_tags,
+    map(
+      "name", "${var.name_prefix}-private-subnet"
+    )
+  )}"
 }
 
 # Routing tables
@@ -41,18 +50,24 @@ resource "aws_route_table" "public_route" {
     gateway_id = aws_internet_gateway.gw.id
   }
 
-  tags = {
-    Name = "janis-rancans-public-route"
-  }
+  tags = "${merge(
+    local.default_tags,
+    map(
+      "name", "${var.name_prefix}-public-route"
+    )
+  )}"
 }
 
 # Private route table
 resource "aws_route_table" "private_route" {
   vpc_id = aws_vpc.vpc.id
 
-  tags = {
-    Name = "janis-rancans-private-route"
-  }
+  tags = "${merge(
+    local.default_tags,
+    map(
+      "name", "${var.name_prefix}-private-route"
+    )
+  )}"
 }
 
 # Connect Public Subnet to Public Route Table

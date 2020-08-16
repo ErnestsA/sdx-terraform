@@ -27,9 +27,12 @@ resource "aws_instance" "server" {
   subnet_id       = "${aws_subnet.public_subnet.id}"
   security_groups = [aws_security_group.server_fw.id]
 
-  tags = {
-    Name = "janis-rancans-aws-instance-in-public-subnet"
-  }
+  tags = "${merge(
+    local.default_tags,
+    map(
+      "name", "${var.name_prefix}-aws-instance-in-public-subnet"
+    )
+  )}"
 }
 
 resource "aws_instance" "server2" {
@@ -40,9 +43,12 @@ resource "aws_instance" "server2" {
   subnet_id       = "${aws_subnet.private_subnet.id}"
   security_groups = [aws_security_group.server_fw.id]
 
-  tags = {
-    Name = "janis-rancans-aws-instance-in-private-subnet"
-  }
+  tags = "${merge(
+    local.default_tags,
+    map(
+      "name", "${var.name_prefix}-aws-instance-in-public-subnet"
+    )
+  )}"
 }
 
 # Security group
@@ -78,7 +84,10 @@ resource "aws_security_group" "server_fw" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "janis-rancans-security-group"
-  }
+  tags = "${merge(
+    local.default_tags,
+    map(
+      "name", "${var.name_prefix}-security-group"
+    )
+  )}"
 }
