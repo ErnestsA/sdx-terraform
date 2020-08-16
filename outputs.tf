@@ -4,7 +4,7 @@ output "default_tags" {
 }
 
 output "vpc_cidr" {
-  value = aws_vpc.main_vpc.cidr_block
+  value = aws_vpc.vpc.cidr_block
 }
 
 output "server_ami" {
